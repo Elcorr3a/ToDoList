@@ -9,9 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun TareaCard(tarea: Tarea, onEliminar: () -> Unit) {
+fun TareaCard(
+    tarea: Tarea,
+    onCompletar: () -> Unit,  // Nuevo parámetro para completar la tarea
+    onEliminar: () -> Unit    // Parámetro para eliminar la tarea
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,6 +29,12 @@ fun TareaCard(tarea: Tarea, onEliminar: () -> Unit) {
             Text(text = "Prioridad: ${tarea.prioridad}")
 
             Row(modifier = Modifier.padding(top = 8.dp)) {
+                Button(onClick = onCompletar) {
+                    Text("Completar")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
                 Button(onClick = onEliminar) {
                     Text("Eliminar")
                 }

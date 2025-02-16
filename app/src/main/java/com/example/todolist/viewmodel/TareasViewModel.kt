@@ -16,7 +16,7 @@ class TareasViewModel : ViewModel() {
     val completedTasks: StateFlow<List<Tarea>> get() = _completedTasks
 
     fun addTask(task: Tarea) {
-        _tasks.value = _tasks.value + task
+        _tasks.value += task
     }
 
     fun completeTask(task: Tarea) {
@@ -24,10 +24,6 @@ class TareasViewModel : ViewModel() {
         _completedTasks.value = _completedTasks.value + task.copy(completada = true)
     }
 
-    fun uncompleteTask(task: Tarea) {
-        _completedTasks.value = _completedTasks.value.filter { it.id != task.id }
-        _tasks.value = _tasks.value + task.copy(completada = false)
-    }
 
     private fun generateSampleTasks(): List<Tarea> {
         return listOf(

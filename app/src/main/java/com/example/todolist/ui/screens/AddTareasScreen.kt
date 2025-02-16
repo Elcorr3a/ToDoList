@@ -10,6 +10,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.navigation.NavController
 import com.example.todolist.viewmodel.TareasViewModel
 import Tarea
+import com.example.tuapp.ui.components.BottomNavigationBar
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,6 +22,7 @@ fun AddTaskScreen(viewModel: TareasViewModel, navController: NavController) {
     var prioridad by remember { mutableStateOf(Prioridad.BAJA) }
 
     Scaffold(
+        bottomBar = { BottomNavigationBar(navController)},
         topBar = { TopAppBar(title = { Text("Añadir Tarea") }) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
