@@ -1,6 +1,4 @@
 package com.example.todolist
-
-
 import TareasListScreenCompleted
 import android.os.Bundle
 import androidx.activity.ComponentActivity

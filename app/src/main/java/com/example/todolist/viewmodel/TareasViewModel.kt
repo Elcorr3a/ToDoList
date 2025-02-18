@@ -1,11 +1,8 @@
 package com.example.todolist.viewmodel
-
 import Tarea
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-
-
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.*
 
 class TareasViewModel : ViewModel() {
 
@@ -15,6 +12,24 @@ class TareasViewModel : ViewModel() {
     private val _completedTasks = MutableStateFlow<List<Tarea>>(emptyList())
     val completedTasks: StateFlow<List<Tarea>> get() = _completedTasks
 
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> get() = _searchQuery
+
+    val filteredTasks = combine(_tasks, _searchQuery) { tareas, query ->
+        if (query.isBlank()) {
+            tareas
+        } else {
+            tareas.filter { tarea ->
+                tarea.nombre.contains(query, ignoreCase = true) ||
+                        tarea.descripcion.contains(query, ignoreCase = true)
+            }
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, _tasks.value)
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
     fun addTask(task: Tarea) {
         _tasks.value += task
     }
@@ -23,7 +38,6 @@ class TareasViewModel : ViewModel() {
         _tasks.value = _tasks.value.filter { it.id != task.id }
         _completedTasks.value = _completedTasks.value + task.copy(completada = true)
     }
-
 
     private fun generateSampleTasks(): List<Tarea> {
         return listOf(
